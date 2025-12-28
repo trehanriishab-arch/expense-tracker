@@ -1,4 +1,18 @@
+import json
+import os
+
+FILE_NAME = "expenses.json"
 expenses = []
+
+def load_expenses():
+    global expenses
+    if os.path.exists(FILE_NAME):
+        with open(FILE_NAME, "r") as f:
+            expenses = json.load(f)
+
+def save_expenses():
+    with open(FILE_NAME, "w") as f:
+        json.dump(expenses, f, indent=4)
 
 def show_menu():
     print("\n--- Student Expense Tracker ---")
@@ -9,9 +23,14 @@ def show_menu():
 
 def add_expense():
     name = input("Enter expense name: ")
-    amount = float(input("Enter amount: "))
+    try:
+        amount = float(input("Enter amount: "))
+    except:
+        print("Invalid amount.")
+        return
     date = input("Enter date (DD-MM-YYYY): ")
     expenses.append({"name": name, "amount": amount, "date": date})
+    save_expenses()
     print("Expense added successfully!")
 
 def view_expenses():
@@ -32,9 +51,13 @@ def delete_expense():
     try:
         index = int(input("Enter expense number to delete: "))
         removed = expenses.pop(index - 1)
+        save_expenses()
         print(f"Deleted: {removed['name']} - ₹{removed['amount']}")
     except:
-        print("Invalid input. Please try again.")
+        print("Invalid input.")
+
+# ---- main flow ----
+load_expenses()
 
 while True:
     show_menu()
