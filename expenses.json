@@ -1,0 +1,14 @@
+[
+    {
+        "name": "bus pass",
+        "amount": 450.0,
+        "date": "05-09-2025",
+        "category": "Travel"
+    },
+    {
+        "name": "electricity bill",
+        "amount": 900.0,
+        "date": "28-08-2025",
+        "category": "Bills"
+    }
+]
