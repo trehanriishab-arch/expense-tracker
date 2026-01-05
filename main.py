@@ -15,6 +15,7 @@ def show_menu():
     print("5. Exit")
 
 load_expenses()
+print("Welcome to Student Expense Tracker")
 
 while True:
     show_menu()

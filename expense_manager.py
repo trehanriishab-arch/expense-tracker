@@ -73,10 +73,14 @@ def view_expenses():
         return
 
     total = 0
+    print("\nYour Expenses:")
     for i, exp in enumerate(expenses, start=1):
         print(f"{i}. {exp['date']} | {exp['category']} | {exp['name']} : ₹{exp['amount']}")
         total += exp["amount"]
-    print(f"Total: ₹{total}")
+
+    print("-" * 30)
+    print(f"Total Amount: ₹{total}")
+    print("-" * 30)
 
 def delete_expense():
     view_expenses()
@@ -102,6 +106,7 @@ def monthly_summary():
 
     summary = {}
     total = 0
+
     for exp in expenses:
         if exp["date"][3:] == month:
             summary[exp["category"]] = summary.get(exp["category"], 0) + exp["amount"]
@@ -111,7 +116,11 @@ def monthly_summary():
         print("No expenses found for this month.")
         return
 
-    print(f"\nSummary for {month}")
+    print("\n" + "-" * 30)
+    print(f"Summary for {month}")
+    print("-" * 30)
     for cat, amt in summary.items():
-        print(f"{cat}: ₹{amt}")
-    print(f"Total: ₹{total}")
+        print(f"{cat:<15}: ₹{amt}")
+    print("-" * 30)
+    print(f"Total Amount   : ₹{total}")
+    print("-" * 30)
