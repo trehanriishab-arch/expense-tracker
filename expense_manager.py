@@ -1,5 +1,6 @@
 import json
 import os
+from datetime import datetime
 
 FILE_NAME = "expenses.json"
 CATEGORIES = ["Food", "Travel", "Bills", "Entertainment", "Other"]
@@ -19,12 +20,31 @@ def show_categories():
     for i, cat in enumerate(CATEGORIES, start=1):
         print(f"{i}. {cat}")
 
-def add_expense():
-    name = input("Enter expense name: ")
+def get_float(prompt):
     try:
-        amount = float(input("Enter amount: "))
+        return float(input(prompt))
     except:
-        print("Invalid amount.")
+        print("Invalid number.")
+        return None
+
+def get_valid_date(prompt):
+    date_str = input(prompt)
+    try:
+        datetime.strptime(date_str, "%d-%m-%Y")
+        return date_str
+    except:
+        print("Invalid date format. Use DD-MM-YYYY.")
+        return None
+
+def add_expense():
+    name = input("Enter expense name: ").strip()
+    if not name:
+        print("Name cannot be empty.")
+        return
+
+    amount = get_float("Enter amount: ")
+    if amount is None or amount <= 0:
+        print("Amount must be positive.")
         return
 
     show_categories()
@@ -34,7 +54,9 @@ def add_expense():
         print("Invalid category.")
         return
 
-    date = input("Enter date (DD-MM-YYYY): ")
+    date = get_valid_date("Enter date (DD-MM-YYYY): ")
+    if not date:
+        return
 
     expenses.append({
         "name": name,
@@ -61,18 +83,25 @@ def delete_expense():
     if not expenses:
         return
     try:
-        removed = expenses.pop(int(input("Enter expense number to delete: ")) - 1)
+        idx = int(input("Enter expense number to delete: ")) - 1
+        if idx < 0 or idx >= len(expenses):
+            raise ValueError
+        removed = expenses.pop(idx)
         save_expenses()
         print(f"Deleted: {removed['name']}")
     except:
-        print("Invalid input.")
+        print("Invalid selection.")
 
 def monthly_summary():
     month = input("Enter month and year (MM-YYYY): ")
+    try:
+        datetime.strptime("01-" + month, "%d-%m-%Y")
+    except:
+        print("Invalid month format. Use MM-YYYY.")
+        return
 
     summary = {}
     total = 0
-
     for exp in expenses:
         if exp["date"][3:] == month:
             summary[exp["category"]] = summary.get(exp["category"], 0) + exp["amount"]

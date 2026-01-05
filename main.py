@@ -18,7 +18,7 @@ load_expenses()
 
 while True:
     show_menu()
-    choice = input("Enter choice (1-5): ")
+    choice = input("Enter choice (1-5): ").strip()
 
     if choice == "1":
         add_expense()
@@ -32,4 +32,4 @@ while True:
         print("Exiting... Goodbye!")
         break
     else:
-        print("Invalid choice.")
+        print("Invalid choice. Enter a number from 1 to 5.")
