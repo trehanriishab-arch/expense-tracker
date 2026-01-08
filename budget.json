@@ -1,0 +1,11 @@
+{
+  "month": "09-2025",
+  "monthly_budget": 6000,
+  "category_limits": {
+    "Food": 2500,
+    "Travel": 1500,
+    "Bills": 1500,
+    "Entertainment": 500,
+    "Other": 0
+  }
+}

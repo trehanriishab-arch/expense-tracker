@@ -1,6 +1,7 @@
 import json
 import os
 from datetime import datetime
+from budget_manager import check_budget_alerts
 
 FILE_NAME = "expenses.json"
 CATEGORIES = ["Food", "Travel", "Bills", "Entertainment", "Other"]
@@ -58,13 +59,17 @@ def add_expense():
     if not date:
         return
 
-    expenses.append({
+    new_expense = {
         "name": name,
         "amount": amount,
         "date": date,
         "category": category
-    })
+    }
+
+    expenses.append(new_expense)
     save_expenses()
+
+    check_budget_alerts(expenses, new_expense)
     print("Expense added successfully!")
 
 def view_expenses():
